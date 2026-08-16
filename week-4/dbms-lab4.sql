@@ -1,0 +1,28 @@
+show databases;
+use gram_panchayat;
+show tables;
+select* from citizen;
+desc citizen;
+desc certificate_application;
+desc certificate_type;
+select * from certificate_type;
+select * from certificate_application;
+select * from panchayat_office;
+alter table citizen add column email_address varchar(20) not null;
+update citizen c join panchayat_office po on c.village_name=po.village_name set c.email_address=po.office_email;
+alter table citizen drop column email_address;
+select c.full_name,ct.certificate_name from citizen c inner join certificate_application ca on c.citizen_id=ca.citizen_id inner join certificate_type ct on ca.certificate_id=ct.certificate_type_id;
+select c.full_name,po.office_name from citizen c inner join certificate_application ca on c.citizen_id=ca.citizen_id inner join panchayat_office po on ca.certificate_id=po.office_id;
+select c.full_name,ca.application_id,ca.application_status from citizen c inner join certificate_application ca on c.citizen_id=ca.citizen_id;
+select c.full_name,ca.application_date,ct.certificate_name from citizen c join certificate_application ca on c.citizen_id=ca.citizen_id join certificate_type ct on ca.certificate_id=ct.certificate_type_id;
+select c.full_name,ct.certificate_name,ca.application_status,po.office_name from citizen c join certificate_application ca on c.citizen_id=ca.citizen_id join certificate_type ct on ca.certificate_id=ct.certificate_type_id join panchayat_office po on ca.certificate_id=po.office_id ;
+select c.full_name,po.office_name from citizen c join certificate_application ca on c.citizen_id=ca.citizen_id join panchayat_office po on ca.certificate_id=po.office_id join certificate_type ct on ca.certificate_id=ct.certificate_type_id where certificate_name="property certificate";
+select c.*,ca.application_id from citizen c join certificate_application ca on c.citizen_id=ca.citizen_id join panchayat_office po on ca.certificate_id=po.office_id where office_name="ramapuram gram panchayat";
+select ca.application_id,ca.application_status,ct.descriptionn from  certificate_application ca join certificate_type ct on ca.certificate_id=ct.certificate_type_id;
+select ca.application_id,c.full_name,c.village_name,ct.certificate_name,po.office_name,ca.application_date from citizen c  join certificate_application ca on c.citizen_id=ca.citizen_id join panchayat_office po on ca.certificate_id=po.office_id join certificate_type ct on ca.certificate_id=ct.certificate_type_id;
+select c.citizen_id,c.full_name,ca.application_id from citizen c right join certificate_application ca on c.citizen_id=ca.citizen_id;
+select ct.certificate_type_id,ct.certificate_name,ca.application_id from certificate_application ca right join certificate_type ct on ca.certificate_id=ct.certificate_type_id;
+select c.citizen_id,c.full_name,ca.application_id from citizen c left join certificate_application ca on c.citizen_id=ca.citizen_id union 
+select c.citizen_id,c.full_name,ca.application_id from citizen c right join certificate_application ca on c.citizen_id=ca.citizen_id;
+select c.full_name,ct.certificate_name from citizen c cross join certificate_type ct;
+select c1.full_name as citizen1 ,c2.full_name as citizen2 ,c1.village_name from citizen c1 inner join citizen c2 on c1.village_name=c2.village_name and c1.citizen_id<c2.citizen_id;
